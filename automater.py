@@ -29,9 +29,16 @@ class Anki:
         translation = HTML.find('span', class_='english').text
 
         sentenceContainer = HTML.find('ul', class_='japanese_sentence japanese japanese_gothic clearfix')
-        sentenceContainer = sentenceContainer.find_all('span', class_='unlinked')
-        for i in sentenceContainer:
-            sentence += i.text
+    
+        furiTags = sentenceContainer.findAll('span', class_='furigana')
+        for i in furiTags:
+            i.decompose()
+
+        sentence = sentenceContainer.text
+
+        # sentenceContainer = sentenceContainer.find_all('span', class_='unlinked')
+        # for i in sentenceContainer:
+        #     sentence += i.text
         return sentence, translation
     
     def getAudio(self):
@@ -67,6 +74,11 @@ class Anki:
             }
         }
         requests.post(localhost,json.dumps(load))
+
+# card = Anki('車',0,'Jap')
+# sentence, translation = card.getSentenceTranslation()
+# print(sentence)
+# print(translation)
 
 username = 'clerickbarrion'
 list = ['刑務所', '自動車', '車', '運動', '飛行機']
