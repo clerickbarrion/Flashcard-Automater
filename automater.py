@@ -8,12 +8,14 @@ class Anki:
         self.word = word
         self.index = index
         self.deckName = deckName
+        self.HTML, self.HTMLSENTENCE = self.getHTML()
         self.sentence, self.translation = self.getSentenceTranslation()
-        self.HTML = self.getHTML()
+       
 
     def getHTML(self):
         HTML = requests.get(f'https://jisho.org/search/{self.word}')
-        return BeautifulSoup(HTML.text, 'html.parser')
+        HTMLSENTENCE = requests.get(f'https://jisho.org/search/{self.word}%20%23sentences')
+        return BeautifulSoup(HTML.text, 'html.parser'), BeautifulSoup(HTMLSENTENCE.text, 'html.parser')
     
     def getMeaning(self):
         meaning = self.HTML.find('span', class_='meaning-meaning')
@@ -25,10 +27,9 @@ class Anki:
     
     def getSentenceTranslation(self):
         sentence = ''
-        HTML = BeautifulSoup(requests.get(f'https://jisho.org/search/{self.word}%20%23sentences').text, 'html.parser')
-        translation = HTML.find('span', class_='english').text
+        translation = self.HTMLSENTENCE.find('span', class_='english').text
 
-        sentenceContainer = HTML.find('ul', class_='japanese_sentence japanese japanese_gothic clearfix')
+        sentenceContainer = self.HTMLSENTENCE.find('ul', class_='japanese_sentence japanese japanese_gothic clearfix')
     
         furiTags = sentenceContainer.findAll('span', class_='furigana')
         for i in furiTags:
@@ -74,11 +75,6 @@ class Anki:
             }
         }
         requests.post(localhost,json.dumps(load))
-
-# card = Anki('車',0,'Jap')
-# sentence, translation = card.getSentenceTranslation()
-# print(sentence)
-# print(translation)
 
 username = 'clerickbarrion'
 list = ['刑務所', '自動車', '車', '運動', '飛行機']
