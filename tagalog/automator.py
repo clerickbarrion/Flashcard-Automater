@@ -66,7 +66,7 @@ class Anki:
             HTML = BeautifulSoup(driver.page_source, 'html.parser')
             source = HTML.find('source').attrs['src']
             r = requests.get(source)
-            with open(f'C:/Users/thede/AppData/Roaming/Anki2/tagalog/collection.media/{self.word}_sentence.mp3', 'wb') as f:
+            with open(f'C:/Users/thede/AppData/Roaming/Anki2/User 1/collection.media/{self.word}_sentence.mp3', 'wb') as f:
                 f.write(r.content)
             return f'[sound:{self.word}_sentence.mp3]'
         finally:
@@ -98,7 +98,7 @@ class Anki:
         requests.post('http://localhost:8765', json=payload)
 
 if __name__ == '__main__':
-    list_of_words = ['kamusta']
+    list_of_words = ['aking','kape','ay','pait','kanya','mga','kaibigan','kasama','ito','tamis','agahan','mansanas','asim','na','alat','hindi','ka','ano man','uri']
     deck_name = 'Tagalog Vocab'
     for word in list_of_words:
         try:
