@@ -98,8 +98,10 @@ class Anki:
         requests.post('http://localhost:8765', json=payload)
 
 if __name__ == '__main__':
-    list_of_words = ['aking','kape','ay','pait','kanya','mga','kaibigan','kasama','ito','tamis','agahan','mansanas','asim','na','alat','hindi','ka','ano man','uri']
+    list_of_words = ['']
     deck_name = 'Tagalog Vocab'
+    failed = []
+    ##### Work on adding character ai generated sentences
     for word in list_of_words:
         try:
             card = Anki(word,deck_name)
@@ -110,3 +112,7 @@ if __name__ == '__main__':
             print(f'{word} added to Anki')
         except:
             print(f'Failed to add {word} to Anki')
+            failed.append(word)
+    with open('failed.txt', 'a') as f:
+        for i in failed:
+            f.write(f"{i}\n")

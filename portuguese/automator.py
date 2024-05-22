@@ -14,7 +14,7 @@ class Anki:
         return BeautifulSoup(html.text, 'html.parser')
     
     def get_translation(self):
-        translation = self.html.find('a', class_='dictLink featured')
+        translation = self.html.find('a', class_='dictLink')
         return translation.text
     
     def get_sentence(self):
@@ -22,7 +22,7 @@ class Anki:
         return sentence.text
 
     def get_sentence_translation(self):
-        translation = self.html.find('span', class_='tag_t')
+        translation = self.html.find('span', class_='tag_e').find('span', class_='tag_t')
         return translation.text
     
     def get_audio(self):
@@ -58,7 +58,9 @@ class Anki:
         requests.post(localhost,json.dumps(load))
 
 username = 'thede'
-list = ['carro']
+# add all translation lines
+list = ['dela','só','entre','poder','qualquer','desistir','local','seco','ideal','estoque','provar','prato','chamar','regras','solução','exército','lutar']
+#local 2 poder 2 provar-try/taste 
 for i in list:
     try:
         card = Anki(i,'Portuguese Vocab')
